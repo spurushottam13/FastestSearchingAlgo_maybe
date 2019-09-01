@@ -44,8 +44,78 @@ function stepThree(firstBit,bit2,data){
     }
 }
 
+// ---------------------------------{ + New Arch + } -------------------------------
+
+const getLastNode = (p, o) => p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
+
+const setLastNode = function(obj, value, path){
+  if(!path.length === 1){
+    path.pop()
+  }
+  let length = path.length;
+  var current = obj;
+  path.forEach(function (key, index) {
+    if (index === length -1) {
+      let currentValue = current[key]
+      if(currentValue){
+        current[key] = {...{[currentValue]:currentValue}, ...value};
+      }else{
+        current[key] = {...value};
+      }
+      
+    }
+    else {
+      if (!current[key]) {
+        current[key] = {};
+      }
+      current = current[key];
+    }
+  });
+}
+
+
+const makeNestedObjWithArrayItemsAsKeys = (arr) => {
+  return arr.reduceRight(
+    (accumulator, item) => {
+      const newAccumulator = {};
+      newAccumulator[item] = Object.assign(
+        {},
+        accumulator
+      );
+      return newAccumulator;
+    },
+    {}
+  );
+};
+
+var newStore = {}
+
+function formater(word){
+  console.log(newStore)
+  alpha(1)
+  function alpha(index){
+    if(index > word.length){
+      return
+    }
+    let currentString = word.substring(0, index)
+    if(getLastNode(currentString.split(""), newStore)){
+      alpha(index + 1)
+    } else{
+      let tempString = word.substring(index, word.length)
+      let tempObject = makeNestedObjWithArrayItemsAsKeys(tempString.split(""))
+      console.log(tempObject)
+      setLastNode(newStore, tempObject, currentString.split(""))
+    }
+  }
+}
+
 arr.forEach(i => stepOne(i.toLowerCase()))
 console.log(store)
+
+var sw = ["purushottam","puru","purushozaswj","paunati"]
+
+sw.forEach(item => formater(item))
+console.log(newStore)
 
 var result =[]
 
@@ -143,3 +213,4 @@ function runStatics(){
     }  
 }
  
+
