@@ -62,7 +62,6 @@ const setLastNode = function(obj, value, path){
       }else{
         current[key] = {...value};
       }
-      
     }
     else {
       if (!current[key]) {
@@ -91,7 +90,7 @@ const makeNestedObjWithArrayItemsAsKeys = (arr) => {
 var newStore = {}
 
 function formater(word){
-  console.log(newStore)
+  word = word.toLowerCase()
   alpha(1)
   function alpha(index){
     if(index > word.length){
@@ -103,7 +102,6 @@ function formater(word){
     } else{
       let tempString = word.substring(index, word.length)
       let tempObject = makeNestedObjWithArrayItemsAsKeys(tempString.split(""))
-      console.log(tempObject)
       setLastNode(newStore, tempObject, currentString.split(""))
     }
   }
@@ -112,9 +110,14 @@ function formater(word){
 arr.forEach(i => stepOne(i.toLowerCase()))
 console.log(store)
 
-var sw = ["purushottam","puru","purushozaswj","paunati"]
+var sw = [
+  "abdominal colectomy",
+  "abdominal aortic aneurysm",
+  "abdominal distension",
+  "abdominal pain"
+]
 
-sw.forEach(item => formater(item))
+arr.forEach(item => formater(item))
 console.log(newStore)
 
 var result =[]
