@@ -14,6 +14,37 @@ console.log(arr.length)
 var store = {}
 // ----------------- Algo Part 
 
+function stepOne(data){
+  
+  let firstBit = data.charAt(0)
+  if(store.hasOwnProperty(firstBit)){
+    stepTwo(firstBit,data)
+  } else{
+    store[firstBit] = {}
+    stepTwo(firstBit,data)
+  }
+}
+
+function stepTwo(firstBit,data){
+  let bit2 = data.charAt(1)
+    if(store[firstBit].hasOwnProperty(bit2)){
+      stepThree(firstBit,bit2,data)
+    }else{
+      store[firstBit][bit2] = {}
+      stepThree(firstBit,bit2,data)
+    }
+}
+
+function stepThree(firstBit,bit2,data){
+  let bit3 = data.charAt(2)
+    if(store[firstBit][bit2].hasOwnProperty(bit3)){
+      store[firstBit][bit2][bit3].push(data)
+    }else{
+      store[firstBit][bit2][bit3] = []
+      store[firstBit][bit2][bit3].push(data)
+    }
+}
+
 // ---------------------------------{ + New Arch + } -------------------------------
 
 const getLastNode = (p, o) => p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
@@ -82,8 +113,17 @@ function formater(word){
 
 arr.forEach(item => formater(item))
 console.log(newStore)
+console.log(nestedObjectToArray(newStore))
 
 // -------------------------------------------------------------------------------------------------------------------
+
+function searchInArray(e,data){
+  let result = []
+  result = data.filter(item => {
+      return item.toLowerCase().substr(0, e.length) === e.toLowerCase();
+  });
+  return result
+}
 
 function nestedObjectToArray(obj) {
   if (typeof(obj) !== "object"){
@@ -96,8 +136,9 @@ function nestedObjectToArray(obj) {
       });
   } else {
       Object.keys(obj).map(function(key) {
-          if(Object.keys(obj[key]).length > 0) {
+          if(obj[key]) {
               var chunk = nestedObjectToArray(obj[key]);
+              console.log(chunk)
               chunk.map(function(item) {
                   result.push(key+item);
               });
@@ -108,9 +149,6 @@ function nestedObjectToArray(obj) {
   }
   return result;
 }
-
-console.log(nestedObjectToArray(newStore[""]))
-
 
 function newSearch(e){
   let currObj = getLastNode(e.split(""),newStore)
