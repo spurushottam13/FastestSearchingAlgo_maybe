@@ -29,7 +29,7 @@ window.algotime = 0
 window.looptime = 0
 console.log("Data Length", arr.length)
 
-// ----------------------------------------{ + Production of Store + }----------------------------------
+// :::::::::::::::::::::::::::::::::::( Production of Store ):::::::::::::::::::::::::::::::::::::::::::
 var store = {}
 
 const getLastNode = (p, o, word) => p.reduce((xs, x) => {
@@ -116,22 +116,31 @@ console.log("Formation of object took ", x1 - x0)
 console.log(largestTimeString, largestTime)
 
 
-// ----------------------------------------{ + Algo Query + }----------------------------------
+// :::::::::::::::::::::::::::::::::::::::( Algo Query )::::::::::::::::::::::::::::::::::
 
-var cache = store
-const getResultArray = (p, o) => p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
-
+var cache = Object.assign({}, store)
 var algoResult = []
+var currentObj = store
+var stringLength = null
 
 function algoSearch(e) {
+  console.log("Ca ", cache, e)
+  if (e.length <= stringLength) {
+    console.log(cache)
+    return
+  }
+  stringLength = e.length
   var t0 = performance.now()
-  algoResult = getResultArray(e.split(""), store)["result"]
+  currentObj = (currentObj[e.substr(-1)])
+  cache = (currentObj[e.substr(-2)])
+  console.log("Last cha", e[e.length - 2])
+  if (currentObj.hasOwnProperty("result")) algoResult = currentObj["result"]
   var t1 = performance.now()
   console.log("Algo search was " + (t1 - t0) + "  for ", algoResult.length)
   window.algotime = t1 - t0
 }
 
-// ----------------------------------------{ + Loop Query + }----------------------------------
+// :::::::::::::::::::::::::::::::::::::::( Loop Query ):::::::::::::::::::::::::::::::::::
 
 var loopResult = []
 

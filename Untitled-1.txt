@@ -239,3 +239,21 @@ function runStatics(){
 }
  
 
+
+
+var cache = store
+const getResultArray = (p, o) => p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
+var algoResult = []
+
+var currentObj = store
+function algoSearch(e) {
+  currentObj = currentObj[e[e.length-1]]
+  var key =  Object.keys(currentObj)
+  console.log(currentObj)
+  var t0 = performance.now()
+  let newResult  = getResultArray(e.split(""), store)["result"]
+  if(newResult) algoResult = newResult
+  var t1 = performance.now()
+  console.log("Algo search was " + (t1 - t0) + "  for ", algoResult.length)
+  window.algotime = t1 - t0
+}
